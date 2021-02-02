@@ -1,0 +1,2 @@
+# scuffle
+A Scrabble solver
