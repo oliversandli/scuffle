@@ -1,0 +1,41 @@
+(defun string-to-list (s)
+  (mapcar 'string (coerce s 'list)))
+
+(defun set-mult-array-elements (a e i)
+  "modify `a' based on the values in `e' and the indexes in `i'"
+  (setq e (string-to-list e))
+  (loop for x in i
+        for y in e do
+        (setf (aref a (car x) (cadr x)) y))
+  nil)
+
+(defun find-play-areas (letters)
+  (let ((letters-len (length letters)))
+    (loop for l from 2 below (1+ letters-len) do
+          (format t "@ ~a ----~&" l)
+          (loop for i from 0 below (1+ (- letters-len l)) do
+                (let ((start i) (end (1- (+ i l))))
+                    (format t "(~a, ~a) ~a~&" start end (subseq letters start (1+ end))))))))
+
+(defun fpl-seq-valid (seq letters blank-char)
+  "find all playable cells in seq from 2 to (length letters)"
+  (let* (
+         (seq-len (length seq))
+         (cells
+            (loop for l from 2 below (1+ seq-len) append
+                  (loop for i from 0 to (- seq-len l) collect
+                        (list i (+ i l) (subseq seq i (+ i l)))))))
+    ; filter out invalid cells
+    (loop for c in cells
+          for cbc = (count blank-char (caddr c)) do
+         (if (or
+               (> cbc (length letters))
+               (= cbc (length (caddr c))))
+           (setq cells (remove c cells :test 'equal)))))
+    cells)
+
+(defparameter *board* (make-array '(5 5) :initial-element ""))
+(defparameter *letters* "rat")
+(defparameter *idx* '((2 2) (3 2) (4 2)))
+
+(set-mult-array-elements *board* *letters* *idx*)

@@ -1,0 +1,2 @@
+(defpackage #:scuffle
+  (:use #:cl))
