@@ -162,7 +162,7 @@
   cells))
 
 (defun find-play (board char-list blank-char)
-  (format t "Caclulating play...~&")
+  (format t "Calculating play...~&")
   (let* ((all-cells
           (loop for row in board
                 for col in (by-cols board)
@@ -180,7 +180,7 @@
     (car (sort hi-cells-scores '> :key 'car))))
 
 (defun find-play-debug (board char-list blank-char)
-  (format t "Caclulating play...~&")
+  (format t "Calculating play...~&")
   (let* ((all-cells
           (loop for row in board
                 for col in (by-cols board)
